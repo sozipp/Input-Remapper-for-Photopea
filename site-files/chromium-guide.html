@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chromium / Chrome / Edge / Opera &mdash; Install Guide &middot; Input Remapper for Photopea</title>
+<style>
+  :root {
+    --bg: #0b0b12;
+    --panel: #12121c;
+    --ink: #ece9ff;
+    --dim: #9a94b8;
+    --neon: #00ffb3;
+    --pink: #ff5ce1;
+    --yel: #ffd500;
+    --block: #00e5ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scrollbar-color: var(--block) var(--panel); }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: "Courier New", Courier, monospace;
+    line-height: 1.6; overflow-x: hidden;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 999;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px);
+  }
+  body::after {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 998;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.45));
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 18px 46px; position: relative; z-index: 1; }
+
+  .top-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--dim); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 26px; }
+  .top-row a { color: var(--block); text-decoration: none; border-bottom: 2px dashed var(--block); }
+  .top-row .blink { color: var(--neon); animation: blink 1.1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .title {
+    font-size: clamp(26px, 6.5vw, 46px); font-weight: 900; text-transform: uppercase;
+    letter-spacing: 1px; line-height: 1.05;
+    background: linear-gradient(90deg, var(--neon), var(--block));
+    -webkit-background-clip: text; background-clip: text; color: transparent; padding-bottom: 4px;
+  }
+  .subtitle { font-size: 13px; color: var(--yel); text-transform: uppercase; letter-spacing: 3px; margin-top: 6px; font-weight: 700; }
+  .rule { height: 6px; background: var(--ink); margin: 22px 0; }
+
+  .panel { background: var(--panel); border: 3px solid var(--ink); box-shadow: 8px 8px 0 rgba(255,255,255,.06); padding: 22px 20px; margin-bottom: 26px; }
+  .panel h2 { font-size: 16px; text-transform: uppercase; letter-spacing: 2px; color: var(--block); margin-bottom: 14px; }
+  .panel p { font-size: 14px; color: #cfcbe8; }
+  .panel p + p { margin-top: 10px; }
+
+  .steps { counter-reset: st; list-style: none; }
+  .steps > li {
+    counter-increment: st; position: relative; padding: 14px 0 14px 58px;
+    border-bottom: 2px dashed #2a2a3e; font-size: 14px; color: #cfcbe8;
+  }
+  .steps > li::before {
+    content: counter(st, decimal-leading-zero);
+    position: absolute; left: 0; top: 14px; width: 40px; height: 40px;
+    background: var(--bg); border: 3px solid var(--block); color: var(--block);
+    font-weight: 900; font-size: 18px; display: flex; align-items: center; justify-content: center;
+    box-shadow: 3px 3px 0 #007cff;
+  }
+  .steps b { color: var(--ink); }
+  .steps .kbd {
+    background: var(--bg); border: 2px solid var(--ink); border-bottom-width: 4px;
+    padding: 1px 7px; font-family: inherit; font-size: 13px; color: var(--neon); white-space: nowrap;
+  }
+
+  .browser {
+    background: var(--bg); border: 3px solid var(--ink); margin-top: 14px; padding: 16px 16px 6px;
+  }
+  .browser h3 { color: var(--pink); text-transform: uppercase; letter-spacing: 2px; font-size: 15px; margin-bottom: 10px; }
+  .browser p { font-size: 13.5px; color: #cfcbe8; }
+  .browser .url {
+    display: inline-block; margin: 6px 0 4px; padding: 4px 10px; border: 2px dashed var(--block);
+    color: var(--block); font-size: 14px; font-weight: 700; user-select: all;
+  }
+  .browser p + p { margin-top: 8px; }
+  .ok { color: var(--neon); font-weight: 700; }
+
+  .dl-row { display: flex; justify-content: center; margin: 18px 0 6px; }
+  .btn {
+    display: inline-block; text-decoration: none; text-transform: uppercase;
+    font-family: "Courier New", Courier, monospace; font-weight: 900; font-size: 16px;
+    letter-spacing: 1px; text-align: center; padding: 16px 26px;
+    border: 3px solid var(--ink); color: var(--bg);
+    background: var(--yel); box-shadow: 6px 6px 0 #b08700;
+  }
+  .btn:active { transform: translate(3px, 3px); box-shadow: none; }
+  .btn:hover { filter: brightness(1.12); }
+
+  .warn { font-size: 13px; color: var(--yel); }
+  .foot { margin-top: 30px; text-align: center; font-size: 13px; color: var(--dim); text-transform: uppercase; letter-spacing: 2px; line-height: 2; }
+  .foot a { color: var(--pink); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--pink); }
+  .foot a:hover { background: var(--pink); color: var(--bg); }
+  .disclaimer {
+    margin-top: 14px; text-align: center; font-size: 11px; color: var(--dim);
+    letter-spacing: .5px; font-family: "Courier New", Courier, monospace;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top-row">
+    <a href="../index.html">&larr; BACK TO HOME</a>
+    <span class="blink">&#9626; CHROMIUM BUILD</span>
+  </div>
+
+  <div class="title">Chromium / Chrome<br>install guide</div>
+  <div class="subtitle">&gt; chrome &middot; edge &middot; opera &middot; brave &middot; any chromium-based</div>
+
+  <div class="rule"></div>
+
+  <div class="panel">
+    <h2>&#9632; Step 1 &mdash; Download &amp; extract</h2>
+    <p>
+      Click the button below to download the extension package
+      (<b>chromium.zip</b>). It is the exact same build as the Firefox version.
+    </p>
+    <div class="dl-row">
+      <a class="btn" href="https://github.com/sozipp/Input-Remapper-for-Photopea/releases/latest/download/chromium.zip">&#9660; Download chromium.zip</a>
+    </div>
+    <p style="text-align:center; font-size:12px; color:var(--dim);">trusted? verify the source &rarr; <a class="biglink" href="https://github.com/sozipp/Input-Remapper-for-Photopea" style="color:var(--block); border-bottom:2px dashed var(--block); text-decoration:none;">github.com/sozipp/Input-Remapper-for-Photopea</a></p>
+  </div>
+
+  <div class="panel">
+    <h2>&#9632; Step 2 &mdash; Unzip it</h2>
+    <ul class="steps">
+      <li>Open the downloaded <b>chromium.zip</b> file.</li>
+      <li><b>Extract / Unzip</b> it to a folder you can find again &mdash; e.g. your Desktop. Keep that folder <b>permanently</b>: the extension runs from it.</li>
+      <li>Inside you should see <span class="kbd">manifest.json</span>, <span class="kbd">content.js</span>, <span class="kbd">popup.html</span>, <span class="kbd">popup.js</span>, and an <span class="kbd">icons</span> folder. That&rsquo;s the whole extension.</li>
+      <li><b>Remember the exact path</b> &mdash; you will select it in Step 3.</li>
+    </ul>
+  </div>
+
+  <div class="panel">
+    <h2>&#9632; Step 3 &mdash; Load the extension</h2>
+    <p>Pick your browser below. The steps are nearly identical everywhere: <b>open the extensions page &rarr; turn on Developer mode &rarr; Load unpacked &rarr; select the extracted folder</b>.</p>
+
+    <div class="browser">
+      <h3>&#9673; Google Chrome</h3>
+      <p>1. Open a new tab and go to:<br><span class="url">chrome://extensions/</span></p>
+      <p>2. Flip the <b>Developer mode</b> switch to ON (top-right corner).</p>
+      <p>3. Click the <b>Load unpacked</b> button that appears.</p>
+      <p>4. Select the <b>extracted folder</b> from Step 2 and click Open.</p>
+      <p class="ok">&gt; DONE. Pin it with the puzzle icon and open photopea.com.</p>
+    </div>
+
+    <div class="browser">
+      <h3>&#9673; Microsoft Edge</h3>
+      <p>1. Open a new tab and go to:<br><span class="url">edge://extensions/</span></p>
+      <p>2. Flip the <b>Developer mode</b> switch to ON (left sidebar, bottom).</p>
+      <p>3. Click <b>Load unpacked</b>.</p>
+      <p>4. Select the <b>extracted folder</b> from Step 2 and click Select Folder.</p>
+      <p class="ok">&gt; DONE. Pin it and open photopea.com.</p>
+    </div>
+
+    <div class="browser">
+      <h3>&#9673; Opera / Opera GX</h3>
+      <p>1. Open a new tab and go to:<br><span class="url">opera://extensions/</span></p>
+      <p>2. Flip the <b>Developer mode</b> switch to ON (top-right).</p>
+      <p>3. Click <b>Load unpacked</b>.</p>
+      <p>4. Select the <b>extracted folder</b> from Step 2 and click Open.</p>
+      <p class="ok">&gt; DONE. Pin it and open photopea.com.</p>
+    </div>
+
+    <div class="browser">
+      <h3>&#9673; Brave / Vivaldi / other Chromium</h3>
+      <p>1. Open the extensions page &mdash; it is one of:
+        <span class="url">brave://extensions/</span> or <span class="url">vivaldi://extensions/</span> (or <span class="url">chrome://extensions/</span>).
+      </p>
+      <p>2. Turn on <b>Developer mode</b> &rarr; <b>Load unpacked</b> &rarr; select the folder.</p>
+      <p class="ok">&gt; Works the same everywhere.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>&#9632; You&rsquo;re done &mdash; quick check</h2>
+    <ul class="steps">
+      <li>Open <b>photopea.com</b> in that browser.</li>
+      <li>Click the extension icon &rarr; flip the <b>ON</b> switch.</li>
+      <li>Click <b>+ Add from Photopea shortcuts</b> &rarr; pick e.g. <b>Free Transform</b> &rarr; press <b>Insert</b> on the recorder screen. Done!</li>
+      <li>Now press <b>Insert</b> inside Photopea = Free Transform. Remap any key, mouse button, or scroll.</li>
+    </ul>
+    <p class="warn">NOTE: Because Chromium won&rsquo;t auto-sync unpacked extensions, keep the extracted folder around. It updates only when you re-download the zip and load it again.</p>
+  </div>
+
+  <div class="foot">
+    made by <a href="https://youtube.com/@sozip19op" target="_blank" rel="noreferrer">sozip19op</a> &middot;
+    <a href="https://youtube.com/@sozip19op" target="_blank" rel="noreferrer">youtube.com/@sozip19op</a> &middot;
+    <a href="../index.html">back home</a>
+  </div>
+  <div class="disclaimer">Not affiliated with, endorsed by, or sponsored by Photopea.</div>
+
+</div>
+</body>
+</html>

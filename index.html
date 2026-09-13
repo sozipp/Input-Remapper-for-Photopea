@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Input Remapper for Photopea</title>
+<style>
+  :root {
+    --bg: #0b0b12;
+    --panel: #12121c;
+    --ink: #ece9ff;
+    --dim: #9a94b8;
+    --neon: #00ffb3;
+    --pink: #ff5ce1;
+    --yel: #ffd500;
+    --block: #00e5ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scrollbar-color: var(--block) var(--panel); }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Courier New", Courier, monospace;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+  /* crt scanlines */
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 999;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px);
+  }
+  body::after {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 998;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.45));
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 28px 18px 46px; position: relative; z-index: 1; }
+
+  .top-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--dim); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 26px; }
+  .top-row .blink { color: var(--neon); animation: blink 1.1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .title {
+    font-size: clamp(30px, 7.5vw, 58px);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    line-height: 1.02;
+    background: linear-gradient(90deg, var(--block), var(--pink));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    padding-bottom: 4px;
+  }
+  .subtitle {
+    font-size: 13px; color: var(--yel); text-transform: uppercase; letter-spacing: 3px;
+    margin-top: 6px; font-weight: 700;
+  }
+  .rule { height: 6px; background: var(--ink); margin: 22px 0; box-shadow: 0 0 0 2px var(--ink); image-rendering: pixelated; }
+
+  .panel {
+    background: var(--panel);
+    border: 3px solid var(--ink);
+    box-shadow: 8px 8px 0 rgba(255,255,255,.06);
+    padding: 22px 20px;
+    margin-bottom: 26px;
+  }
+  .panel h2 {
+    font-size: 16px; text-transform: uppercase; letter-spacing: 2px; color: var(--block);
+    margin-bottom: 14px;
+  }
+  .panel p { font-size: 14px; color: #cfcbe8; }
+  .panel p + p { margin-top: 10px; }
+  .panel .hl { color: var(--neon); font-weight: 700; }
+  .panel .hl-p { color: var(--pink); font-weight: 700; }
+
+  .features { list-style: none; }
+  .features li { font-size: 14px; color: #cfcbe8; padding: 7px 0 7px 26px; position: relative; }
+  .features li::before { content: ">"; position: absolute; left: 0; color: var(--block); font-weight: 900; }
+
+  .btn-row { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin: 10px 0 6px; }
+  .btn {
+    display: inline-block; text-decoration: none; text-transform: uppercase;
+    font-family: "Courier New", Courier, monospace; font-weight: 900; font-size: 15px;
+    letter-spacing: 1px; text-align: center; padding: 14px 22px;
+    border: 3px solid var(--ink); color: var(--bg);
+    cursor: pointer; transition: none;
+  }
+  .btn:active { transform: translate(3px, 3px); box-shadow: none; }
+  .btn.firefox { background: var(--block); box-shadow: 6px 6px 0 #007cff; }
+  .btn.chromium { background: var(--neon); box-shadow: 6px 6px 0 #00996b; }
+  .btn.gh { background: var(--yel); box-shadow: 6px 6px 0 #b08700; }
+  .btn:hover { filter: brightness(1.12); }
+
+  .foot {
+    margin-top: 30px; text-align: center; font-size: 13px; color: var(--dim);
+    text-transform: uppercase; letter-spacing: 2px; line-height: 2;
+  }
+  .foot a { color: var(--pink); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--pink); }
+  .foot a:hover { background: var(--pink); color: var(--bg); }
+
+  .biglink { color: var(--block); text-decoration: none; border-bottom: 2px dashed var(--block); }
+  .disclaimer {
+    margin-top: 14px; text-align: center; font-size: 11px; color: var(--dim);
+    letter-spacing: .5px; font-family: "Courier New", Courier, monospace;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top-row">
+    <span>[ PHOTOPEA EXTENSION ]</span>
+    <span class="blink">&#9626; READY</span>
+  </div>
+
+  <div class="title">Input Remapper</div>
+  <div class="title">for Photopea</div>
+  <div class="subtitle">&gt; remap anything into photopea&rsquo;s own shortcuts</div>
+
+  <div class="rule"></div>
+
+  <div class="panel">
+    <h2>&#9632; What it does</h2>
+    <p>
+      Turn any <span class="hl">key</span>, <span class="hl">mouse button</span> or
+      <span class="hl">scroll gesture</span> into any of Photopea&rsquo;s shortcuts.
+      Press <span class="hl-p">Insert</span> &gt; get <span class="hl-p">Free Transform (Ctrl+Alt+T)</span>.
+      Scroll with <span class="hl-p">Alt</span> &gt; zoom.
+      Remap everything, your way.
+    </p>
+    <p>
+      Works <span class="hl">ONLY</span> on photopea.com &mdash; your OS and the rest of the web stay untouched.
+      Browser shortcuts are blocked so you never hijack them by accident.
+    </p>
+  </div>
+
+  <div class="panel">
+    <h2>&#9632; Features</h2>
+    <ul class="features">
+      <li>Key to key remapping, with any modifier combos</li>
+      <li>Mouse buttons &amp; wheel gestures as triggers</li>
+      <li>60+ one-click Photopea presets, searchable</li>
+      <li>Record the trigger &mdash; just press it</li>
+      <li>Live on/off switch, syncs across your browser</li>
+      <li>Local &amp; private &mdash; nothing leaves your device</li>
+    </ul>
+  </div>
+
+  <div class="panel">
+    <h2>&#9632; Install it</h2>
+    <p>Pick your browser. Fully free, no accounts, open source.</p>
+    <div class="btn-row">
+      <a class="btn firefox" href="https://addons.mozilla.org/en-US/firefox/addon/input-remapper-for-photopea/">&#9660; Firefox</a>
+      <a class="btn chromium" href="site-files/chromium-guide.html">&#9660; Chromium / Chrome</a>
+    </div>
+    <p style="text-align:center; margin-top:10px; font-size:12px; color:var(--dim);">
+      Firefox = 1-click from AMO &middot; Chromium = 3-minute guide, step by step
+    </p>
+  </div>
+
+  <div class="panel">
+    <h2>&#9632; Source code</h2>
+    <p>Read the code, verify it, fork it, build it yourself.</p>
+    <div class="btn-row">
+      <a class="btn gh" href="https://github.com/sozipp/Input-Remapper-for-Photopea">&#9660; View source on GitHub</a>
+    </div>
+  </div>
+
+  <div class="foot">
+    made by <a href="https://youtube.com/@sozip19op" target="_blank" rel="noreferrer">sozip19op</a> &middot;
+    <a href="https://youtube.com/@sozip19op" target="_blank" rel="noreferrer">youtube.com/@sozip19op</a>
+  </div>
+  <div class="disclaimer">Not affiliated with, endorsed by, or sponsored by Photopea.</div>
+
+</div>
+</body>
+</html>
