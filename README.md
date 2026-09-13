@@ -63,17 +63,6 @@ The extension can be installed manually or through the project's distribution pa
 
 **Coming soon**
 
-## 🛠️ Development
-
-Clone the repository:
-
-```bash
-git clone https://github.com/sozipp/LAUNCHER-UPDATER.git
-```
-
-Then load the extension as an unpacked extension in your browser's developer/extension settings.
-
-> Replace the repository URL above with this project's actual GitHub repository URL if you create a separate repository for Input Remapper.
 
 
 
