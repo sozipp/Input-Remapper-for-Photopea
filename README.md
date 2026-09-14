@@ -53,15 +53,15 @@ photopea.com
 
 ### Firefox
 
-Install it from the Firefox Add-ons website:
+Install it from the Firefox Add-ons website: 
 
-**Coming soon**
+**[FIREFOX](https://addons.mozilla.org/en-US/firefox/addon/input-remapper-for-photopea/)**
 
 ### Chrome / Chromium-based browsers
 
 The extension can be installed manually or through the project's distribution page.
 
-**Coming soon**
+**[CHROMIUM](https://sozipp.github.io/Input-Remapper-for-Photopea/site-files/chromium-guide.html)**
 
 
 
